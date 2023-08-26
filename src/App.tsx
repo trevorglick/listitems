@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
-import "./styles.css";
+import { useEffect, useMemo, useState } from 'react';
+import './styles.css';
 
-import { StyledDivider } from "./App.style";
-import { Product } from "./types/Product";
-import { List } from "./components/List";
-import { Search } from "./components/Search";
-import { Loading } from "./components/Loading";
+import { StyledDivider } from './App.style';
+import { Product } from './types/Product';
+import { List } from './components/List';
+import { Search } from './components/Search';
+import { Loading } from './components/Loading';
 
 /*
   e2e tests
@@ -15,13 +15,13 @@ import { Loading } from "./components/Loading";
 
 export default function App() {
   const [listItems, setListItems] = useState<Product[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchListItems = async () => {
       setLoading(true);
-      await fetch("https://fakestoreapi.com/products")
+      await fetch('https://fakestoreapi.com/products')
         .then((response) => {
           if (!response.ok) {
             throw new Error(response.statusText);
@@ -33,8 +33,8 @@ export default function App() {
           setLoading(false);
         })
         .catch((error) => {
-          alert("there was an error retrieving products");
-          console.error("error", error);
+          alert('there was an error retrieving products');
+          console.error('error', error);
           setLoading(false);
         });
     };
@@ -44,19 +44,19 @@ export default function App() {
   const filteredList = useMemo(() => {
     return listItems.filter(
       (item) =>
-        item.title.includes(searchQuery) ||
-        item.description.includes(searchQuery)
+        item.title.toLowerCase().includes(searchQuery) ||
+        item.description.toLowerCase().includes(searchQuery)
     );
   }, [listItems, searchQuery]);
 
   return (
-    <div className="App">
+    <div className='App'>
       <h1>Apple List Items</h1>
       {loading ? (
-        <Loading label={"Loading Products..."} />
+        <Loading label={'Loading Products...'} />
       ) : (
         <>
-          <Search setSearchQuery={setSearchQuery} />
+          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
           <StyledDivider />
           <List listItems={filteredList} />
         </>
